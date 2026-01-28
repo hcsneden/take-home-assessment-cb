@@ -6,12 +6,11 @@ import { ollamaService } from '../services/ollama-service';
 export const feedbackRoutes = Router();
 
 // Validation schema for creating feedback
-//TODO: add validation for scripting attacks or inappropriate content
 const createFeedbackSchema = z.object({
-  courseName: z.string().min(1, 'Course name is required'),
-  studentName: z.string().optional(),
+  courseName: z.string().min(1, 'Course name is required').max(200),
+  studentName: z.string().max(100).optional(),
   rating: z.number().int().min(1).max(5, 'Rating must be between 1 and 5'),
-  feedbackText: z.string().min(10, 'Feedback must be at least 10 characters')
+  feedbackText: z.string().min(10, 'Feedback must be at least 10 characters').max(5000)
 });
 
 //POST /api/feedback - Submit new feedback and trigger AI analysis
