@@ -35,8 +35,6 @@ function App() {
   // Handle new feedback created
   const handleFeedbackCreated = (feedback: Feedback) => {
     setFeedbackList((prev) => [feedback, ...prev]);
-    // Switch to feedback tab to show the new entry
-    setActiveView('feedback');
   };
 
   // Handle selecting a feedback item (fetch latest to get analysis)

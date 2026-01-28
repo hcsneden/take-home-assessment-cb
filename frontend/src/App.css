@@ -311,6 +311,14 @@
   color: var(--error-color);
 }
 
+.success-message {
+  padding: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  color: #166534;
+}
+
 /* Tabs */
 .tabs {
   display: flex;

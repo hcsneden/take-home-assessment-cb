@@ -13,10 +13,12 @@ export function FeedbackForm({ onFeedbackCreated }: FeedbackFormProps) {
   const [feedbackText, setFeedbackText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
 
     // Client-side validation
     if (!courseName.trim()) {
@@ -40,11 +42,12 @@ export function FeedbackForm({ onFeedbackCreated }: FeedbackFormProps) {
 
       onFeedbackCreated(feedback);
 
-      // Reset form
+      // Reset form and show success message
       setCourseName('');
       setStudentName('');
       setRating(5);
       setFeedbackText('');
+      setSuccess('Feedback submitted successfully! AI analysis is processing in the background.');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit feedback');
     } finally {
@@ -55,6 +58,7 @@ export function FeedbackForm({ onFeedbackCreated }: FeedbackFormProps) {
   return (
     <form className="feedback-form" onSubmit={handleSubmit}>
       {error && <div className="error-message">{error}</div>}
+      {success && <div className="success-message">{success}</div>}
 
       <div className="form-group">
         <label htmlFor="courseName">Course Name *</label>
