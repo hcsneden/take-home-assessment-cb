@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # LocalStack - for local AWS services (DynamoDB, etc.)
+  localstack:
+    image: localstack/localstack:latest
+    container_name: take-home-assessment-localstack
+    ports:
+      - "4566:4566"            # LocalStack Gateway
+      - "4510-4559:4510-4559"  # External services port range
+    environment:
+      - SERVICES=dynamodb,s3
+      - DEBUG=0
+      - PERSISTENCE=1
+    volumes:
+      - localstack-data:/var/lib/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - take-home-assessment-network
+
+  # PostgreSQL - Alternative to DynamoDB
+  postgres:
+    image: postgres:15-alpine
+    container_name: take-home-assessment-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: feedback
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - take-home-assessment-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Ollama - Local LLM (free, no API keys needed)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: take-home-assessment-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - take-home-assessment-network
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres-data:
+  localstack-data:
+  ollama-data:
+
+networks:
+  take-home-assessment-network:
+    driver: bridge
