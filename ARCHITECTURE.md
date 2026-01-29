@@ -43,12 +43,10 @@ The Student Feedback Analyzer is a full-stack web application that allows instru
 
 ## Trade-offs
 
-Given the time constraint, I focused on functionality over polish:
-
-- I would improve the UI look and feel
-- No authentication - all feedback visible to everyone
-- Some styles/components could be refactored into reusable pieces
-- No pagination - works for now but would need it at scale
+- **Embedded analysis in feedback document** - one read gets all the data, but the document changes after creation. Could separate into its own table with a foreign key, but adds complexity for this scope
+- **Async AI over sync** - better UX since users aren't waiting 15-30 seconds, but means the frontend needs to handle the "Analyzing..." state
+- **Single page with tabs** - simpler than setting up React Router, but no distinct URLs for bookmarking or sharing specific views
+- **Manual refresh for analysis** - user has to click back into the detail view or refresh to see completed analysis. WebSocket would push updates automatically but adds complexity
 
 ## Deploying to AWS
 
