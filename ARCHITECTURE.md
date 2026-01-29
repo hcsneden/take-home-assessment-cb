@@ -62,6 +62,7 @@ For production I'd use Terraform to manage the infrastructure. The setup would l
 
 ## Improvements with More Time
 
+- **Unit tests** 80% coverage for unit tests
 - **Separate views** for submitting feedback vs. viewing the list (currently tabbed, could be distinct pages/routes)
 - **Real-time updates** when AI analysis completes (WebSocket or polling) so users don't have to refresh
 - **Filtering and search** - filter by course, search by keywords
